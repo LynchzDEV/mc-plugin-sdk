@@ -1,0 +1,22 @@
+{
+  "name": "@mission-control/plugin-sdk",
+  "version": "0.1.0",
+  "description": "Toolkit for writing Mission Control plugins: types, manifest validation, server and screen helpers, shared UI stylesheet.",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/server.ts",
+    "./screen": "./src/screen.ts",
+    "./manifest": "./src/manifest.ts",
+    "./ui.css": "./ui.css"
+  },
+  "dependencies": {
+    "comlink": "^4.4.2",
+    "vscode-jsonrpc": "^9.0.3",
+    "zod": "4"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.2"
+  }
+}
