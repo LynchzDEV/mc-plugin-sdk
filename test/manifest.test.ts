@@ -96,6 +96,15 @@ describe('parseManifest', () => {
     expect(errorsOf({ ...clickupManifest, permissions })).toContain('sessions must not repeat')
   })
 
+  test('accepts queueSource true or false and rejects a non-boolean', () => {
+    for (const queueSource of [true, false]) {
+      const result = parseManifest({ ...clickupManifest, queueSource })
+      expect(result.ok).toBe(true)
+      if (result.ok) expect(result.manifest.queueSource).toBe(queueSource)
+    }
+    expect(errorsOf({ ...clickupManifest, queueSource: 'yes' }).length).toBeGreaterThan(0)
+  })
+
   test('rejects an unknown top-level field', () => {
     expect(errorsOf({ ...clickupManifest, homepage: 'https://example.com' }).length).toBeGreaterThan(0)
   })
@@ -158,5 +167,6 @@ describe('schema/mc-plugin.schema.json', () => {
     expect(new RegExp(schema.$defs.repoPath.pattern).test('src/server.ts')).toBe(true)
     expect(new RegExp(schema.properties.permissions.properties.network.items.pattern).test('*.clickup.com')).toBe(false)
     expect(new RegExp(schema.properties.permissions.properties.network.items.pattern).test('api.clickup.com')).toBe(true)
+    expect(schema.properties.queueSource.type).toBe('boolean')
   })
 })

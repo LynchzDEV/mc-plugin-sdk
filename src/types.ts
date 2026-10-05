@@ -12,6 +12,7 @@ export type PluginManifest = {
   icon?: string
   server?: string
   screen?: string
+  queueSource?: boolean
   permissions: { network?: string[]; sessions?: Array<'chat' | 'terminal'>; settings?: boolean }
   settings?: SettingField[]
 }

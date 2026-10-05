@@ -24,6 +24,7 @@
     "icon": { "$ref": "#/$defs/repoPath" },
     "server": { "$ref": "#/$defs/repoPath" },
     "screen": { "$ref": "#/$defs/repoPath" },
+    "queueSource": { "type": "boolean", "description": "Shows this plugin's Mission Control queue under it in the sidebar." },
     "permissions": {
       "type": "object",
       "additionalProperties": false,

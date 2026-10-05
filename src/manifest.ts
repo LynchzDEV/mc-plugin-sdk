@@ -33,6 +33,7 @@ export const manifestSchema = z.strictObject({
   icon: repoPath('icon').optional(),
   server: repoPath('server').optional(),
   screen: repoPath('screen').optional(),
+  queueSource: z.boolean().optional(),
   permissions: z.strictObject({
     network: z
       .array(z.string().regex(NETWORK_HOST_PATTERN, 'Network permissions must be plain host names like api.clickup.com'))

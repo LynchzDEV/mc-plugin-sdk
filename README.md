@@ -42,6 +42,7 @@ access, and expect users to think twice before installing it.
 | `icon` | Optional path inside the repo (svg/png), e.g. `assets/icon.svg`. |
 | `server` | Optional path inside the repo, e.g. `src/server.ts`. Relative, no `..`, no leading `/`. |
 | `screen` | Optional path inside the repo, e.g. `src/screen.ts`. Same path rules. |
+| `queueSource` | Optional boolean. `true` shows the Mission Control queue under this plugin in the sidebar (even when empty) and offers the plugin as a source in Add item. |
 | `permissions.network` | Plain host names only (`api.clickup.com`). No wildcards, no URLs. Meaningful for isolated plugins. |
 | `permissions.sessions` | A subset of `["chat", "terminal"]`. Needed to start sessions from the screen. |
 | `permissions.settings` | `true` when the plugin keeps its own settings (secrets included). |
