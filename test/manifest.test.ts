@@ -74,9 +74,16 @@ describe('parseManifest', () => {
     expect(errorsOf({ ...clickupManifest, screen: '/etc/passwd' }).length).toBeGreaterThan(0)
   })
 
-  test('rejects wildcard network permissions', () => {
-    const permissions = { ...clickupManifest.permissions, network: ['*.clickup.com'] }
-    expect(errorsOf({ ...clickupManifest, permissions }).length).toBeGreaterThan(0)
+  test('accepts a *. wildcard over a host of at least two labels', () => {
+    const permissions = { ...clickupManifest.permissions, network: ['api.clickup.com', '*.clickup-attachments.com'] }
+    expect(parseManifest({ ...clickupManifest, permissions }).ok).toBe(true)
+  })
+
+  test('rejects any other wildcard shape', () => {
+    for (const host of ['*.com', '*', 'a.*.b', '**.x', '**.clickup.com', '*clickup.com', '*.', '.clickup.com']) {
+      const permissions = { ...clickupManifest.permissions, network: [host] }
+      expect(errorsOf({ ...clickupManifest, permissions }).length, host).toBeGreaterThan(0)
+    }
   })
 
   test('rejects network entries that are not plain host names', () => {
@@ -165,8 +172,9 @@ describe('schema/mc-plugin.schema.json', () => {
     expect(schema.properties.permissions.properties.sessions.uniqueItems).toBe(true)
     expect(new RegExp(schema.$defs.repoPath.pattern).test('../x.ts')).toBe(false)
     expect(new RegExp(schema.$defs.repoPath.pattern).test('src/server.ts')).toBe(true)
-    expect(new RegExp(schema.properties.permissions.properties.network.items.pattern).test('*.clickup.com')).toBe(false)
-    expect(new RegExp(schema.properties.permissions.properties.network.items.pattern).test('api.clickup.com')).toBe(true)
+    const network = new RegExp(schema.properties.permissions.properties.network.items.pattern)
+    for (const host of ['api.clickup.com', '*.clickup-attachments.com']) expect(network.test(host), host).toBe(true)
+    for (const host of ['*.com', '*', 'a.*.b', '**.x', 'https://api.clickup.com']) expect(network.test(host), host).toBe(false)
     expect(schema.properties.queueSource.type).toBe('boolean')
   })
 })

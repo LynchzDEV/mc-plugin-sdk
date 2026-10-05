@@ -4,7 +4,7 @@ import type { PluginManifest, SettingField } from './types'
 export const SUPPORTED_PLUGIN_APIS: readonly number[] = [1]
 
 const PLUGIN_ID_PATTERN = /^[a-z0-9](?:[a-z0-9-]{1,38}[a-z0-9])$/
-const NETWORK_HOST_PATTERN = /^(?=.{1,253}$)([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$/
+const NETWORK_PERMISSION_PATTERN = /^(?:\*\.)?(?=.{1,253}$)([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$/
 const REPO_PATH_PATTERN = /^(?!\/)(?!.*(?:^|\/)\.\.(?:\/|$)).+$/
 
 const repoPath = (field: string) =>
@@ -36,7 +36,7 @@ export const manifestSchema = z.strictObject({
   queueSource: z.boolean().optional(),
   permissions: z.strictObject({
     network: z
-      .array(z.string().regex(NETWORK_HOST_PATTERN, 'Network permissions must be plain host names like api.clickup.com'))
+      .array(z.string().regex(NETWORK_PERMISSION_PATTERN, 'Network permissions must be plain host names like api.clickup.com, or *. and a host like *.clickup-attachments.com'))
       .optional(),
     sessions: z
       .array(z.enum(['chat', 'terminal']))
